@@ -10,7 +10,7 @@
 #include <validation.h>
 #include <util.h>
 #include <random.h>
-#include <bitcoincore/src/vdsbitcoind.h>
+//#include <bitcoincore/src/vdsbitcoind.h>
 #include <boost/lexical_cast.hpp>
 
 #include <memory>
@@ -75,7 +75,7 @@ main(int argc, char** argv)
  * this function is a useless function
  * just for fix the link error with libbitcoin_server.a
  **/
-void buseless()
-{
-    BitcoinCore::StartShutdown();
-}
+//void buseless()
+//{
+//    BitcoinCore::StartShutdown();
+//}

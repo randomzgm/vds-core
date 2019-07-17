@@ -22,7 +22,7 @@
 #include "rpc/protocol.h"
 #include "vds/IncrementalMerkleTree.hpp"
 #include "sodium.h"
-#include "miner.h"
+//#include "miner.h"
 
 #include <iostream>
 #include <chrono>

@@ -87,7 +87,7 @@ then
     RUST_ARG='--enable-rust=no'
     shift
 fi
-RUST_ARG='--disable-rust'
+# RUST_ARG='--disable-rust'
 
 # If --enable-proton is the next argument, enable building Proton code:
 PROTON_ARG='--enable-proton=no'
@@ -107,5 +107,6 @@ ld --version
 
 HOST="$HOST" BUILD="$BUILD" NO_RUST="$RUST_ARG" NO_PROTON="$PROTON_ARG" "$MAKE" "$@" -C ./depends/ V=1
 ./autogen.sh
-CC="$CC" CXX="$CXX" ./configure --prefix="${PREFIX}" --host="$HOST" --build="$BUILD" "$RUST_ARG" "$HARDENING_ARG" "$LCOV_ARG" "$TEST_ARG" "$MINING_ARG" "$PROTON_ARG" CXXFLAGS='-fwrapv -fno-strict-aliasing -Werror -g'
+CC="$CC" CXX="$CXX" ./configure --prefix="${PREFIX}" --host="$HOST" --build="$BUILD" "$RUST_ARG" "$HARDENING_ARG" "$LCOV_ARG" "$TEST_ARG" "$MINING_ARG" "$PROTON_ARG" CXXFLAGS='-fwrapv -fno-strict-aliasing -g'
+# CXXFLAGS='-fwrapv -fno-strict-aliasing -Werror -g'
 "$MAKE" "$@" V=1

@@ -21,7 +21,7 @@
 #include "utiltime.h"
 #include "vds/IncrementalMerkleTree.hpp"
 #include "sodium.h"
-#include "miner.h"
+//#include "miner.h"
 
 #include <array>
 #include <iostream>

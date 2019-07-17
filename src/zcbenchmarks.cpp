@@ -16,7 +16,7 @@
 #include "chainparams.h"
 #include "consensus/validation.h"
 #include "validation.h"
-#include "miner.h"
+//#include "miner.h"
 #include "pow.h"
 #include "rpc/server.h"
 #include "script/sign.h"

@@ -4,7 +4,7 @@
 #include "pubkey.h"
 #include "vds/JoinSplit.hpp"
 #include "util.h"
-#include <bitcoincore/src/vdsbitcoind.h>
+//#include <bitcoincore/src/vdsbitcoind.h>
 
 #include <libsnark/common/default_types/r1cs_ppzksnark_pp.hpp>
 #include <libsnark/zk_proof_systems/ppzksnark/r1cs_ppzksnark/r1cs_ppzksnark.hpp>
@@ -55,7 +55,7 @@ int main(int argc, char** argv)
  * this function is a useless function
  * just for fix the link error with libbitcoin_server.a
  **/
-void guseless()
-{
-    BitcoinCore::StartShutdown();
-}
+//void guseless()
+//{
+//    BitcoinCore::StartShutdown();
+//}

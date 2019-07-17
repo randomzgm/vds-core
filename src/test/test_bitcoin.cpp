@@ -11,16 +11,16 @@
 #include <consensus/validation.h>
 #include <crypto/sha256.h>
 #include <validation.h>
-#include <miner.h>
+//#include <miner.h>
 #include <net_processing.h>
 #include <ui_interface.h>
 #include <streams.h>
 #include <rpc/server.h>
 #include <rpc/register.h>
 #include <script/sigcache.h>
-#include <bitcoincore/src/vdsbitcoind.h>
-#include <wallet/bitcoininterface.h>
-#include <lnode/lnodeman.h>
+//#include <bitcoincore/src/vdsbitcoind.h>
+//#include <wallet/bitcoininterface.h>
+//#include <lnode/lnodeman.h>
 #include <init.h>
 
 #include <wallet/wallet.h>
@@ -61,38 +61,38 @@ BasicTestingSetup::~BasicTestingSetup()
 
 TestingSetup::TestingSetup(const std::string& chainName) : BasicTestingSetup(chainName)
 {
-    const CChainParams& chainparams = Params();
-    // Ideally we'd move all the RPC tests to the functional testing framework
-    // instead of unit tests, but for now we need these here.
-
-    RegisterAllCoreRPCCommands(tableRPC);
-    ClearDatadirCache();
-    pathTemp = fs::temp_directory_path() / strprintf("test_bitcoin_%lu_%i", (unsigned long)GetTime(), (int)(InsecureRandRange(100000)));
-    fs::create_directories(pathTemp);
-    mapArgs["-datadir"] = pathTemp.string();
-
-    // We have to run a scheduler thread to prevent ActivateBestChain
-    // from blocking due to queue overrun.
-    threadGroup.create_thread(boost::bind(&CScheduler::serviceQueue, &scheduler));
-    GetMainSignals().RegisterBackgroundSignalScheduler(scheduler);
-
-    pblocktree = new CBlockTreeDB(1 << 20, true);
-    pcoinsdbview = new CCoinsViewDB(1 << 23, true);
-    pcluedbview = new CClueViewDB(1 << 23, true);
-    pcoinsTip = new CCoinsViewCache(pcoinsdbview);
-    pclueTip = new CClueViewCache(pcluedbview);
-    cluepool.SetBackend(*pclueTip);
-    InitBlockIndex(chainparams);
-    if (plnman == nullptr) {
-        plnman = new CLNodeMan();
-        plnman->LoadLightIndex(chainparams);
-    }
-    nScriptCheckThreads = 3;
-    for (int i = 0; i < nScriptCheckThreads - 1; i++)
-        threadGroup.create_thread(&ThreadScriptCheck);
-    g_connman = std::unique_ptr<CConnman>(new CConnman()); // Deterministic randomness for tests.
-    connman = g_connman.get();
-    RegisterNodeSignals(GetNodeSignals());
+//    const CChainParams& chainparams = Params();
+//    // Ideally we'd move all the RPC tests to the functional testing framework
+//    // instead of unit tests, but for now we need these here.
+//
+//    RegisterAllCoreRPCCommands(tableRPC);
+//    ClearDatadirCache();
+//    pathTemp = fs::temp_directory_path() / strprintf("test_bitcoin_%lu_%i", (unsigned long)GetTime(), (int)(InsecureRandRange(100000)));
+//    fs::create_directories(pathTemp);
+//    mapArgs["-datadir"] = pathTemp.string();
+//
+//    // We have to run a scheduler thread to prevent ActivateBestChain
+//    // from blocking due to queue overrun.
+//    threadGroup.create_thread(boost::bind(&CScheduler::serviceQueue, &scheduler));
+//    GetMainSignals().RegisterBackgroundSignalScheduler(scheduler);
+//
+//    pblocktree = new CBlockTreeDB(1 << 20, true);
+//    pcoinsdbview = new CCoinsViewDB(1 << 23, true);
+//    pcluedbview = new CClueViewDB(1 << 23, true);
+//    pcoinsTip = new CCoinsViewCache(pcoinsdbview);
+//    pclueTip = new CClueViewCache(pcluedbview);
+//    cluepool.SetBackend(*pclueTip);
+//    InitBlockIndex(chainparams);
+//    if (plnman == nullptr) {
+//        plnman = new CLNodeMan();
+//        plnman->LoadLightIndex(chainparams);
+//    }
+//    nScriptCheckThreads = 3;
+//    for (int i = 0; i < nScriptCheckThreads - 1; i++)
+//        threadGroup.create_thread(&ThreadScriptCheck);
+//    g_connman = std::unique_ptr<CConnman>(new CConnman()); // Deterministic randomness for tests.
+//    connman = g_connman.get();
+//    RegisterNodeSignals(GetNodeSignals());
 }
 
 TestingSetup::~TestingSetup()
@@ -108,8 +108,8 @@ TestingSetup::~TestingSetup()
     delete pcluedbview;
     delete pcoinsdbview;
     delete pblocktree;
-    delete plnman;
-    plnman = nullptr;
+//    delete plnman;
+//    plnman = nullptr;
 #ifdef ENABLE_WALLET
     bitdb.Flush(true);
     bitdb.Reset();
@@ -136,31 +136,32 @@ TestChain100Setup::TestChain100Setup() : TestingSetup(CBaseChainParams::REGTEST)
 CBlock
 TestChain100Setup::CreateAndProcessBlock(const std::vector<CMutableTransaction>& txns, const CScript& scriptPubKey)
 {
-    const CChainParams& chainparams = Params();
-    std::unique_ptr<CBlockTemplate> pblocktemplate = BlockAssembler(chainparams).CreateNewBlock(scriptPubKey);
-    CBlock& block = pblocktemplate->block;
-
-    // Replace mempool-selected txns with just coinbase plus passed-in txns:
-    block.vtx.resize(1);
-    for (const CMutableTransaction& tx : txns)
-        block.vtx.push_back(MakeTransactionRef(tx));
-    // IncrementExtraNonce creates a valid coinbase and merkleRoot
-    unsigned int extraNonce = 0;
-    {
-        LOCK(cs_main);
-        IncrementExtraNonce(&block, chainActive.Tip(), extraNonce);
-    }
-
-    while (!CheckProofOfWork(block.GetHash(), block.nBits, chainparams.GetConsensus())) {
-        arith_uint256 a = UintToArith256(block.nNonce) ;
-        ++a;
-        block.nNonce = ArithToUint256(a);
-    }
-
-    std::shared_ptr<const CBlock> shared_pblock = std::make_shared<const CBlock>(block);
-    ProcessNewBlock(chainparams, shared_pblock, true, nullptr, NULL);
-
-    CBlock result = block;
+//    const CChainParams& chainparams = Params();
+//    std::unique_ptr<CBlockTemplate> pblocktemplate = BlockAssembler(chainparams).CreateNewBlock(scriptPubKey);
+//    CBlock& block = pblocktemplate->block;
+//
+//    // Replace mempool-selected txns with just coinbase plus passed-in txns:
+//    block.vtx.resize(1);
+//    for (const CMutableTransaction& tx : txns)
+//        block.vtx.push_back(MakeTransactionRef(tx));
+//    // IncrementExtraNonce creates a valid coinbase and merkleRoot
+//    unsigned int extraNonce = 0;
+//    {
+//        LOCK(cs_main);
+//        IncrementExtraNonce(&block, chainActive.Tip(), extraNonce);
+//    }
+//
+//    while (!CheckProofOfWork(block.GetHash(), block.nBits, chainparams.GetConsensus())) {
+//        arith_uint256 a = UintToArith256(block.nNonce) ;
+//        ++a;
+//        block.nNonce = ArithToUint256(a);
+//    }
+//
+//    std::shared_ptr<const CBlock> shared_pblock = std::make_shared<const CBlock>(block);
+//    ProcessNewBlock(chainparams, shared_pblock, true, nullptr, NULL);
+//
+//    CBlock result = block;
+    CBlock result;
     return result;
 }
 
@@ -197,7 +198,7 @@ CBlock getBlock13b8a()
  * this function is a useless function
  * just for fix the link error with libbitcoin_server.a
  **/
-void useless()
-{
-    BitcoinCore::StartShutdown();
-}
+//void useless()
+//{
+//    BitcoinCore::StartShutdown();
+//}

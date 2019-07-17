@@ -3,7 +3,7 @@
 
 #include "chainparams.h"
 #include "key.h"
-#include "miner.h"
+//#include "miner.h"
 #include "util.h"
 #ifdef ENABLE_WALLET
 #include "wallet/wallet.h"

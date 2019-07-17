@@ -24,7 +24,7 @@
 #include "httprpc.h"
 #include "key.h"
 #include "validation.h"
-#include "miner.h"
+//#include "miner.h"
 #include "net.h"
 #include "net_processing.h"
 #include "policy/policy.h"
